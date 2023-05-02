@@ -19,16 +19,18 @@ const UserSchema = new mongoose.Schema({
 			_id: '',
 			title: '',
 			poster: '',
+			rating: '',
 			releaseDate:'',
 			adult: true,
 			summary: ''
 		}
 	],
-	mustWatchMovies: [
+	watchList: [
 		{
 			_id: '',
 			title: '',
 			poster: '',
+			rating: '',
 			releaseDate:'',
 			adult: true,
 			summary: ''
