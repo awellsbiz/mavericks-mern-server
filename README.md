@@ -1,44 +1,63 @@
-# MERN Auth Server
 
-Server starter code for project 3
+# Movie Favoriting App
 
-## Getting Setup
+Overview: Our team will be creating a movie favoriting app that allows users to save and organize their favorite movies and create a watchlist of movies they want to see in the future. The app will utilize a modern MERN framework to create a responsive and interactive user interface.
 
-### If you are a git manager for the server
+## Installation
 
-* clone this repo down directly, do not fork it
-	* you can use `git clone < cloning url > < your project name >` to name the directory it is cloned into
-* cd into the directory you just cloned
-* run `rm -rf .git` to delete the git repo
-* run `git init` to create a fresh git repo
-* add and commit the code
-* create a new repo on github that will be your origin and your group's upstream
-* copy the code chunk from github "...or push an existing repository from the command line." 
-* share the repos url with your teammates so they can fork it 
+Clone this repository: 
 
-### If you are a contributor
+```git clone https://github.com/your-username/movie-favoriting-app.git```
 
-* fork your backend repo manger's code
-* clone _your fork_ of the code and cd into the directory
-* run `git remote add upstream < your frontend repo manager's cloning url >`
-* check your work with `git remote -v`
-	* `origin` should refer to your fork 
-	* `upstream` should refer to your git manager's repo
+Navigate to the project directory: 
 
-### Steps for everyone to get the code running
+```cd movie-favoriting-app```
 
-* `touch .env`
-* add the following to the `.env` file:
-```
-# jwt secret for signing json web tokens -- can be any string
-JWT_SECRET="mysecretmessage"
-```
-* run `npm i` to install the required packages
-* run `nodemon` or `node .` start the server
+Install the dependencies: 
 
+```npm install```
 
+Create a ```.env``` file and add your TMDb API key: 
 
+```REACT_APP_TMDB_API_KEY=your-api-key```
 
+Start the app: ```npm start```
 
+Open the app in your browser:
 
+ ```http://localhost:3000```
+
+## Tech Stack
+
+ - MongoDB
+ - Mongoose
+ - Javascript
+ - Express
+ - TMDb API
+
+ ## User Story
+
+- As a movie enthusiast, I want to be able to search for a specific movie by its title so I can quickly find it and add it to my favorites.
+- As a user, I want to be able to add a movie to my watchlist so that I can remember to watch it later
+- As a user, I want to be able to see a list of my favorite movies so that I can quickly access them.
+- As a user, I want to be able to delete a movie from my watch or favorite list if I change it
+- As a user I want to be able to move movies between lists
+- As a user I want to have a secure login to my information and lists
+- As a movie enthusiast I want to have imagery attached to the movies I am watching
+- As a movie enthusiast I want to have all relevant information that includes release date, rating, genre, synopsis.
+
+## CRUD
+
+![CRUD for the CineSearch](assets/crud.png)
+
+## ERD
+
+--- ERD Screenshot
+
+## Team Mavericks
+
+ - [Dakota Smith](https://github.com/Dxk0ta)
+ - [Anthony Wells](https://github.com/awellsbiz)
+ - [Myles Wiegel](https://github.com/mylesw27)
+ - [Juan Cabrera](https://github.com/juanedcabrera)
 
