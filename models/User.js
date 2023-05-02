@@ -8,9 +8,32 @@ const UserSchema = new mongoose.Schema({
 	email: {
 		type: String
 	},
+	userName: {
+		type: String
+	},
 	password: {
 		type: String
-	}
+	},
+	favoriteMovies: [
+		{
+			_id: '',
+			title: '',
+			poster: '',
+			releaseDate:'',
+			adult: true,
+			summary: ''
+		}
+	],
+	mustWatchMovies: [
+		{
+			_id: '',
+			title: '',
+			poster: '',
+			releaseDate:'',
+			adult: true,
+			summary: ''
+		}
+	]
 }, {
 	timestamps: true
 })
