@@ -1,0 +1,27 @@
+{
+  "name":"Test 1",
+  "email": "t@t.com",
+  "password": "12345",
+  "favoriteMovies": [
+    {
+    "id": "abc",
+    "title": "Test",
+    "poster":"poster img",
+    "rating":"a",
+    "releaseDate": "09-08-99",
+    "adult": false,
+    "summary": "Test"
+    }
+    ],
+    "watchList": [
+    {
+    "id": "abcd",
+    "title": "Test2",
+    "poster":"poster img2",
+    "rating":"a",
+    "releaseDate": "09-08-99",
+    "adult": false,
+    "summary": "Test"
+    }
+    ]
+}
