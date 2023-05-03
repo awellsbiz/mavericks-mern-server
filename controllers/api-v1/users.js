@@ -103,12 +103,13 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 	res.json({ msg: 'welcome to the private route!' })
 })
 
-// GET /favorites -- array of selected favorite movies 
-router.get('/favorites', async (req,res) => {
+router.get('/favorites',authLockedRoute, async (req,res) => {
     try{
-        const findUser= await db.User.find({_id: "6452cbf785d57e0fa68d23f7"})
-		const favorites= findUser.favoriteMovies.find({_id: '6452cbf785d57e0fa68d23f8'})
-        res.json({result: favorites})
+        const findUser= await db.User.find(res.locals.user)
+	
+		const favorites= await findUser.favorites
+		console.log(favorites)
+        res.json({result: findUser})
     }catch(err){
         console.log(err)
     }
@@ -116,23 +117,25 @@ router.get('/favorites', async (req,res) => {
 
 
 //POST /favorites -- add a movie to the favorites array
-router.post('/favorites', async (req,res)=>{
+router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
     try{
         //const newFave= await db.User.create(req.body)
-		const findUser= await db.User.find({_id: "6452d66a391cd338fac7a4b0"})
-		const addFave= findUser.results.favorites.push('_testId')
-        res.json({result: findUser})
+		const findUser= await db.User.find(res.locals.user)
+		const updatedUser = await db.User.updateOne({ _id: findUser}, { $push: { favorites: { id: req.params.id } } })
+        res.json({result: updatedUser})
     }catch(err){
         console.log(err)
     }
 })
 
 //DELETE /favorites -- delete a movie from the array
-router.delete('/favorites', async (req,res) => {
+router.delete('/favorites/:id', authLockedRoute, async (req,res) => {
     try{
-		
-        const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
-        res.json({result: "deletedFavorite"})
+		const findUser= await db.User.find(res.locals.user)
+		const deleteFave = await db.User.updateOne({ _id: findUser}, { $pull: { favorites: { id: req.params.id } } })
+		console.log(findUser)
+        //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
+        res.json({result: deleteFave})
     }catch(err){
         console.log(err)
     }
