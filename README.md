@@ -52,7 +52,7 @@ Open the app in your browser:
 
 ## ERD
 
---- ERD Screenshot
+![ERD for the CineSearch](assets/ERD.png)
 
 ## Team Mavericks
 
