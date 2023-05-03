@@ -16,26 +16,27 @@ const UserSchema = new mongoose.Schema({
 	},
 	favoriteMovies: [
 		{
-			_id: '',
-			title: '',
-			poster: '',
-			rating: '',
-			releaseDate:'',
-			adult: true,
-			summary: ''
+			_id: {type: String},
+			title: {type: String},
+			poster: {type: String},
+			rating: {type: String},
+			releaseDate:{type: String},
+			adult: {type: Boolean},
+			summary: {type: String}
 		}
 	],
 	watchList: [
 		{
-			_id: '',
-			title: '',
-			poster: '',
-			rating: '',
-			releaseDate:'',
-			adult: true,
-			summary: ''
+			_id: {type: String},
+			title: {type: String},
+			poster: {type: String},
+			rating: {type: String},
+			releaseDate:{type: String},
+			adult: {type: Boolean},
+			summary: {type: String}
 		}
 	]
+	
 }, {
 	timestamps: true
 })
