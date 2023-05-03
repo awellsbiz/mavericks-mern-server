@@ -103,4 +103,38 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 	res.json({ msg: 'welcome to the private route!' })
 })
 
+// GET /favorites -- array of selected favorite movies 
+router.get('/favorites', async (req,res) => {
+    try{
+        const findUser= await db.User.find({_id: "6452cbf785d57e0fa68d23f7"})
+		const favorites= findUser.favoriteMovies.find({_id: '6452cbf785d57e0fa68d23f8'})
+        res.json({result: favorites})
+    }catch(err){
+        console.log(err)
+    }
+})
+
+
+//POST /favorites -- add a movie to the favorites array
+router.post('/favorites', async (req,res)=>{
+    try{
+        //const newFave= await db.User.create(req.body)
+		const findUser= await db.User.find({_id: "6452d66a391cd338fac7a4b0"})
+		const addFave= findUser.results.favorites.push('_testId')
+        res.json({result: findUser})
+    }catch(err){
+        console.log(err)
+    }
+})
+
+//DELETE /favorites -- delete a movie from the array
+router.delete('/favorites', async (req,res) => {
+    try{
+		
+        const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
+        res.json({result: "deletedFavorite"})
+    }catch(err){
+        console.log(err)
+    }
+})
 module.exports = router
