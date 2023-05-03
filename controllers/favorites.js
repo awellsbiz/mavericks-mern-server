@@ -7,7 +7,7 @@ const db = require('../models')
 // GET /favorites -- array of selected favorite movies 
 router.get('/', async (req,res) => {
     try{
-        const favorites= await db.User.find({'favoriteMovies.title': 'Test'})
+        const favorites= await db.User.id('6452cbf785d57e0fa68d23f7')
         res.json({result: favorites})
     }catch(err){
         console.log(err)
@@ -28,7 +28,7 @@ router.post('/', async (req,res)=>{
 router.delete('/', async (req,res) => {
     try{
 
-        const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {id: 'abc'}})
+        const deletedFavorite = await db.User.deleteOne({'favoriteMovies.id': '6452cbf785d57e0fa68d23f8'})
         res.json({result: "deletedFavorite"})
     }catch(err){
         console.log(err)
