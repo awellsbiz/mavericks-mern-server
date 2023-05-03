@@ -48,11 +48,11 @@ Open the app in your browser:
 
 ## CRUD
 
-![CRUD for the CineSearch](assets/crud.png)
+![CRUD for the CineSearch](assets/ERD2.png)
 
 ## ERD
 
-![ERD for the CineSearch](assets/ERD2.png)
+![ERD for the CineSearch](ERD.drawio.png)
 
 ## Team Mavericks
 
