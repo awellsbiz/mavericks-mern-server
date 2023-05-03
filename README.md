@@ -1,6 +1,6 @@
+![Large cinesearch logo which is a panda eating popcorn](/assets/logo-large.png)
 
-# Movie Favoriting App
-
+# CineSearch Movie App
 Overview: Our team will be creating a movie favoriting app that allows users to save and organize their favorite movies and create a watchlist of movies they want to see in the future. The app will utilize a modern MERN framework to create a responsive and interactive user interface.
 
 ## Installation
