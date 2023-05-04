@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken')
 const db = require('../../models')
+const dotenv = require('dotenv')
 
+dotenv.config()
 // route specific middleware for jwt authorization
 const authLockedRoute = async (req, res, next) => {
     try {
