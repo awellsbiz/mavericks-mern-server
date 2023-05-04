@@ -95,7 +95,6 @@ router.post('/login', async (req, res) => {
 	}
 })
 
-
 // GET /auth-locked - will redirect if bad jwt token is found
 router.get('/auth-locked', authLockedRoute, (req, res) => {
 	// use res.locals.user here to do authorization stuff
@@ -103,36 +102,72 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 	res.json({ msg: 'welcome to the private route!' })
 })
 
-// GET /favorites -- array of selected favorite movies 
-router.get('/favorites', async (req,res) => {
+//------RESTFUL CRUD---------
+//GET /favorites --Read a list of all favorites 
+router.get('/favorites',authLockedRoute, async (req,res) => {
     try{
-        const findUser= await db.User.find({_id: "6452cbf785d57e0fa68d23f7"})
-		const favorites= findUser.favoriteMovies.find({_id: '6452cbf785d57e0fa68d23f8'})
+        const findUser= await db.User.find(res.locals.user)
+		const favorites = await db.FavoriteMovie.find({})
         res.json({result: favorites})
     }catch(err){
         console.log(err)
     }
 })
-
-
-//POST /favorites -- add a movie to the favorites array
-router.post('/favorites', async (req,res)=>{
+//GET /watchlist -- Read all movies that are in the wishList array
+router.get('/watchlist',authLockedRoute, async (req,res) => {
     try{
-        //const newFave= await db.User.create(req.body)
-		const findUser= await db.User.find({_id: "6452d66a391cd338fac7a4b0"})
-		const addFave= findUser.results.favorites.push('_testId')
-        res.json({result: findUser})
+        const findUser= await db.User.find(res.locals.user)
+		const watchList = await db.WatchList.find({})
+        res.json({result: watchList})
     }catch(err){
         console.log(err)
     }
 })
 
-//DELETE /favorites -- delete a movie from the array
-router.delete('/favorites', async (req,res) => {
+//POST /favorites -- add a movie to the favorites array
+router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
     try{
+		const findUser= await db.User.find(res.locals.user)
+		const newFavorite= await db.FavoriteMovie.updateOne(req.params.id)
+		findUser.favorites.push(newFavorite.id)
 		
-        const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
-        res.json({result: "deletedFavorite"})
+        res.json({result: findUser})
+    }catch(err){
+        console.log(err)
+    }
+})
+//POST /watchlist -- add a movie to the favorites array
+router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
+    try{
+		const findUser= await db.User.find(res.locals.user)
+		const updateList= await db.WatchList.updateOne(req.params.id)
+		findUser.favorites.push(updateList.id)
+		
+        res.json({result: updatedUser})
+    }catch(err){
+        console.log(err)
+    }
+})
+//DELETE /favorites -- delete a movie from the array
+router.delete('/favorites/:id', async (req,res) => {
+    try{
+		const findUser= await db.User.find(res.locals.user)
+		const deleteFave = await db.FavoriteMovie.updateOne({ _id: findUser}, { $pull: { favorites: { id: req.params.id } } })
+		console.log(findUser)
+        //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
+        res.json({result: deleteFave})
+    }catch(err){
+        console.log(err)
+    }
+})
+//DELETE /watchlist/:id --delete a specific movie from the array
+router.delete('/favorites/:id', async (req,res) => {
+    try{
+		const findUser= await db.User.find(res.locals.user)
+		const deleteWatch = await db.WatchList.updateOne({ _id: findUser}, { $pull: { watchList: { id: req.params.id } } })
+		console.log(findUser)
+        //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
+        res.json({result: deleteWatch})
     }catch(err){
         console.log(err)
     }
