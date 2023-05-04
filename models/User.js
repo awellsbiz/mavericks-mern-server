@@ -19,6 +19,12 @@ const UserSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'FavoriteMovie'
 		}
+	],
+	watchList: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'WatchList'
+		}
 	]
 }, {
 	timestamps: true
