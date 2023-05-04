@@ -125,11 +125,12 @@ router.get('/watchlist',authLockedRoute, async (req,res) => {
 })
 
 //POST /favorites -- add a movie to the favorites array
-router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
+router.post('/favorites',authLockedRoute, async (req,res)=>{
     try{
-		const findUser= await db.User.find(res.locals.user)
-		const newFavorite= await db.FavoriteMovie.updateOne(req.params.id)
-		findUser.favorites.push(newFavorite.id)
+		const findUser= await db.User.find({_id: res.locals.user._id})
+		const newFavorite= await db.FavoriteMovie.create(req.body)
+		findUser.favorites.push(newFavorite)
+	
 		
         res.json({result: findUser})
     }catch(err){
