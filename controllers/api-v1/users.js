@@ -100,24 +100,26 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 	// use res.locals.user here to do authorization stuff
 	console.log('logged in user:', res.locals.user)
 	res.json({ msg: 'welcome to the private route!' })
-})
+})         
 
 //------RESTFUL CRUD---------
 //GET /favorites --Read a list of all favorites 
-router.get('/favorites',authLockedRoute, async (req,res) => {
-    try{
-        const findUser= await db.User.find(res.locals.user)
-		const favorites = await db.FavoriteMovie.find({})
-        res.json({result: favorites})
-    }catch(err){
-        console.log(err)
-    }
+router.get('/favorites', authLockedRoute, async (req, res) => {
+	try{
+		const favorites = await db.FavoriteMovie.find({userId: res.locals.user._id})
+
+		res.json({result: favorites})
+	} catch (err) {
+		console.log(err)
+	}
 })
+
 //GET /watchlist -- Read all movies that are in the wishList array
 router.get('/watchlist',authLockedRoute, async (req,res) => {
     try{
         const findUser= await db.User.find(res.locals.user)
 		const watchList = await db.WatchList.find({})
+		console.log(watchList)
         res.json({result: watchList})
     }catch(err){
         console.log(err)
@@ -137,8 +139,9 @@ router.post('/favorites',authLockedRoute, async (req,res)=>{
         console.log(err)
     }
 })
+
 //POST /watchlist -- add a movie to the favorites array
-router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
+router.post('/favorites',authLockedRoute, async (req,res)=>{
     try{
 		const findUser= await db.User.find(res.locals.user)
 		const updateList= await db.WatchList.updateOne(req.params.id)
