@@ -106,10 +106,8 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 router.get('/favorites',authLockedRoute, async (req,res) => {
     try{
         const findUser= await db.User.find(res.locals.user)
-	
-		const favorites= await findUser.favorites
-		console.log(favorites)
-        res.json({result: findUser})
+		const favorites = await db.FavoriteMovie.find({})
+        res.json({result: favorites})
     }catch(err){
         console.log(err)
     }
@@ -117,11 +115,12 @@ router.get('/favorites',authLockedRoute, async (req,res) => {
 
 
 //POST /favorites -- add a movie to the favorites array
-router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
+router.post('/favorites',authLockedRoute, async (req,res)=>{
     try{
-        //const newFave= await db.User.create(req.body)
 		const findUser= await db.User.find(res.locals.user)
-		const updatedUser = await db.User.updateOne({ _id: findUser}, { $push: { favorites: { id: req.params.id } } })
+		const newFavorite= await db.FavoriteMovie.updateOne(req.params.id)
+		findUser.favorites.push(newFavorite.id)
+		
         res.json({result: updatedUser})
     }catch(err){
         console.log(err)
@@ -129,7 +128,7 @@ router.post('/favorites/:id',authLockedRoute, async (req,res)=>{
 })
 
 //DELETE /favorites -- delete a movie from the array
-router.delete('/favorites/:id', authLockedRoute, async (req,res) => {
+router.delete('/favorites/:id', async (req,res) => {
     try{
 		const findUser= await db.User.find(res.locals.user)
 		const deleteFave = await db.User.updateOne({ _id: findUser}, { $pull: { favorites: { id: req.params.id } } })
