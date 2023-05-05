@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const authLockedRoute = require("./authLockedRoute");
+const authLockedRoute = require("./authLockedRoute")
 
 // GET /users - test endpoint
 router.get("/", (req, res) => {
@@ -109,7 +109,6 @@ router.put("/user", authLockedRoute, async (req, res) => {
   try {
     const userId = res.locals.user._id;
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    const newPW = hashedPassword;
 
     const update = await db.User.findByIdAndUpdate(
       userId,
@@ -118,8 +117,8 @@ router.put("/user", authLockedRoute, async (req, res) => {
           name: req.body.name,
           email: req.body.email,
           userName: req.body.userName,
-          password: newPW,
-        },
+          password: hashedPassword,
+        }
       },
       { new: true }
     );
@@ -134,21 +133,21 @@ router.put("/user", authLockedRoute, async (req, res) => {
 
 
 //------RESTFUL CRUD---------
-//GET /favorites --Read a list of all favorites
-router.get("/favorites", authLockedRoute, async (req, res) => {
-  try {
-    const findUser = await db.User.find(res.locals.user);
-    const favorites = await db.FavoriteMovie.find({});
-    res.json({ result: favorites });
-  } catch (err) {
-    console.log(err);
-  }
-});
+//GET /favorites --Read a list of all favorites 
+router.get('/favorites',authLockedRoute, async (req,res) => {
+    try{
+      const user= await db.User.findById(res.locals.user._id)
+		  const favorites = await db.FavoriteMovie.find({})
+        res.json({result: favorites})
+    }catch(err){
+        console.log(err)
+    }
+})
 //GET /watchlist -- Read all movies that are in the wishList array
 router.get("/watchlist", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const watchList = await db.WatchList.find({});
+    const user = await db.User.findById(res.locals.user._id);
+    const watchList = await db.WatchList.find({})
     res.json({ result: watchList });
   } catch (err) {
     console.log(err);
@@ -158,53 +157,49 @@ router.get("/watchlist", authLockedRoute, async (req, res) => {
 //POST /favorites -- add a movie to the favorites array
 router.post("/favorites", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find({ _id: res.locals.user._id });
+    const user = await db.User.findById(res.locals.user._id);
     const newFavorite = await db.FavoriteMovie.create(req.body);
-    findUser.favorites.push(newFavorite);
-
-    res.json({ result: findUser });
-  } catch (err) {
-    console.log(err);
+    user.favorites.push(newFavorite);
+    await user.save();
+    res.json({ result: user });
+  } catch (error) {
+    console.log(error);
   }
 });
+
 //POST /watchlist -- add a movie to the favorites array
-router.post("/favorites/:id", authLockedRoute, async (req, res) => {
+router.post("/watchlist", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const updateList = await db.WatchList.updateOne(req.params.id);
-    findUser.favorites.push(updateList.id);
+    const user = await db.User.findById(res.locals.user._id);
+    const newWatch = await db.WatchList.create(req.body);
+    user.watchList.push(newWatch);
+    await user.save()
+    res.json({ result: user });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-    res.json({ result: updatedUser });
-  } catch (err) {
-    console.log(err);
-  }
-});
-//DELETE /favorites -- delete a movie from the array
-router.delete("/favorites/:id", async (req, res) => {
+// DELETE /favorites/:id -- delete a movie from the favorites array
+router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const deleteFave = await db.FavoriteMovie.updateOne(
-      { _id: findUser },
-      { $pull: { favorites: { id: req.params.id } } }
-    );
-    console.log(findUser);
-    //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
-    res.json({ result: deleteFave });
-  } catch (err) {
-    console.log(err);
+    const user = await db.User.findById(res.locals.user._id);
+    user.favorites.remove(req.params.id)
+    user.save()
+    res.json({ result: "Favorite Removed" });
+  } catch (error) {
+    console.log(error);
   }
 });
+
+
 //DELETE /watchlist/:id --delete a specific movie from the array
-router.delete("/favorites/:id", async (req, res) => {
+router.delete("/watchlist/:id", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const deleteWatch = await db.WatchList.updateOne(
-      { _id: findUser },
-      { $pull: { watchList: { id: req.params.id } } }
-    );
-    console.log(findUser);
-    //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
-    res.json({ result: deleteWatch });
+    const user = await db.User.findById(res.locals.user._id);
+    user.watchList.remove(req.params.id)
+    user.save()
+    res.json({ result: "Watch List Removed"});
   } catch (err) {
     console.log(err);
   }

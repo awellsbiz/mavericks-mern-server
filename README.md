@@ -35,24 +35,39 @@ Open the app in your browser:
  - Express
  - TMDb API
 
- ## User Story
+## User Story
 
-- As a movie enthusiast, I want to be able to search for a specific movie by its title so I can quickly find it and add it to my favorites.
+- As a user, I want to be able to search for a specific movie by its title so I can quickly find it and add it to my favorites.
 - As a user, I want to be able to add a movie to my watchlist so that I can remember to watch it later
 - As a user, I want to be able to see a list of my favorite movies so that I can quickly access them.
 - As a user, I want to be able to delete a movie from my watch or favorite list if I change it
-- As a user I want to be able to move movies between lists
-- As a user I want to have a secure login to my information and lists
-- As a movie enthusiast I want to have imagery attached to the movies I am watching
-- As a movie enthusiast I want to have all relevant information that includes release date, rating, genre, synopsis.
+- As a user, I want to be able to move movies between lists
+- As a user, I want to have a secure login to my information and lists
+- As a user, I want to have imagery attached to the movies I am watching
+- As a user, I want to have all relevant information that includes release date, rating, genre, synopsis
 
 ## CRUD
 
-![CRUD for the CineSearch](assets/ERD2.png)
+![CRUD for the CineSearch](assets/crud.png)
 
 ## ERD
 
-![ERD for the CineSearch](ERD.drawio.png)
+![ERD for the CineSearch](assets/ERD.png)
+
+## MVP 
+- Pull movie information from the TMDB API
+- Display movie information to the user
+- Display movie images and posters
+- Allow users to search for movies
+- Store a users favorite movies in a Mongo database
+- Display lists of popular movies to the user
+- Allow users to have a list of movies they want to watch
+
+## Stretch Goals or Minimum Marketable Product
+- Display streaming information with the movie details view
+- Ability to comment on movies
+- Ability to sort/filter by genre
+- Notifications if another user comments on a movie you have commented on
 
 ## Team Mavericks
 

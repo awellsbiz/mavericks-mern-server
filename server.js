@@ -21,8 +21,6 @@ app.get('/', (req, res) => {
 
 // controllers
 app.use('/api-v1/users', require('./controllers/api-v1/users.js'))
-app.use('/favorites', require('./controllers/favorites.js'))
-app.use('/watchList', require('./controllers/watchList.js'))
 
 // hey listen
 app.listen(PORT, () => {
