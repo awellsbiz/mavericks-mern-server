@@ -120,8 +120,8 @@ router.get("/favorites", authLockedRoute, async (req, res) => {
 //GET /watchlist -- Read all movies that are in the wishList array
 router.get("/watchlist", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const watchList = await db.WatchList.find({});
+    const user = await db.User.findById(res.locals.user._id);
+    const watchList = user.favorites.map((watch) => watch._id)
     res.json({ result: watchList });
   } catch (err) {
     console.log(err);
@@ -142,13 +142,13 @@ router.post("/favorites", authLockedRoute, async (req, res) => {
 });
 
 //POST /watchlist -- add a movie to the favorites array
-router.post("/favorites/:id", authLockedRoute, async (req, res) => {
+router.post("/watchlist", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const updateList = await db.WatchList.updateOne(req.params.id);
-    findUser.favorites.push(updateList.id);
-
-    res.json({ result: updatedUser });
+    const user = await db.User.findById(res.locals.user._id);
+    const newWatch = await db.WatchList.create(req.body);
+    user.watchList.push(newWatch);
+    await user.save()
+    res.json({ result: user });
   } catch (err) {
     console.log(err);
   }
@@ -168,16 +168,12 @@ router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
 
 
 //DELETE /watchlist/:id --delete a specific movie from the array
-router.delete("/watchlist/:id", async (req, res) => {
+router.delete("/watchlist/:id", authLockedRoute, async (req, res) => {
   try {
-    const findUser = await db.User.find(res.locals.user);
-    const deleteWatch = await db.WatchList.updateOne(
-      { _id: findUser },
-      { $pull: { watchList: { id: req.params.id } } }
-    );
-    console.log(findUser);
-    //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
-    res.json({ result: deleteWatch });
+    const user = await db.User.findById(res.locals.user._id);
+    user.watchList.remove(req.params.id)
+    user.save()
+    res.json({ result: "Watch List Removed"});
   } catch (err) {
     console.log(err);
   }
