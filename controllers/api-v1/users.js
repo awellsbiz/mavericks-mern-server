@@ -153,31 +153,20 @@ router.post("/favorites/:id", authLockedRoute, async (req, res) => {
     console.log(err);
   }
 });
-//DELETE /favorites -- delete a movie from the array
-router.delete('/favorites/:id', authLockedRoute, async (req,res) => {
-	try {
-		const user = await db.User.findById(res.locals.user._id)
-		console.log(user)
-		user.favorites = user.favorites.filter(favorite => favorite._id  !== req.params.id)
-		console.log(user.favorites)
-		await user.save()
-		res.json({ result: 'Favorite Removed'})
-	} catch (error) {
-		console.log(error)
-	}
-})
 
-// router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
-//   try {
-//     const findUser = await db.User.findById(res.locals.user._id);
-// 	await FavoriteMovie.deleteOne({_id: "645412251ed3a7e125e3ede2"})
-//     console.log(findUser);
-//     //const deletedFavorite = await db.User.findOneAndDelete({favoriteMovies: {title: 'Test'},})
-//     res.json({ result: "object deleted" });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
+// DELETE /favorites/:id -- delete a movie from the favorites array
+router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
+  try {
+    const user = await db.User.findById(res.locals.user._id);
+    user.favorites.remove(req.params.id)
+    user.save()
+    res.json({ result: "Favorite Removed" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
 //DELETE /watchlist/:id --delete a specific movie from the array
 router.delete("/watchlist/:id", async (req, res) => {
   try {
