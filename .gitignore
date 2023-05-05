@@ -11,6 +11,9 @@
 # production
 /build
 
+# scratchpad
+/scratchpad.txt
+
 # misc
 .DS_Store
 .env.local

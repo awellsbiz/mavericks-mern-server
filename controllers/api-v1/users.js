@@ -3,8 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const authLockedRoute = require("./authLockedRoute");
-const { FavoriteMovie } = require("../../models");
+const authLockedRoute = require("./authLockedRoute")
 
 // GET /users - test endpoint
 router.get("/", (req, res) => {
@@ -105,23 +104,50 @@ router.get("/auth-locked", authLockedRoute, (req, res) => {
   res.json({ msg: "welcome to the private route!" });
 });
 
-//------RESTFUL CRUD---------
-//GET /favorites --Read a list of all favorites
-router.get("/favorites", authLockedRoute, async (req, res) => {
+//PUT /user-- edit user
+router.put("/user", authLockedRoute, async (req, res) => {
   try {
-    const user = await db.User.findById(res.locals.user._id);
-    const favorites = user.favorites.map((favorite) => favorite._id);
-    res.json({ result: favorites });
+    const userId = res.locals.user._id;
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
+    const update = await db.User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          userName: req.body.userName,
+          password: hashedPassword,
+        }
+      },
+      { new: true }
+    );
+    await update.save();
+    res.json(update);
   } catch (err) {
     console.log(err);
   }
 });
 
+//DELETE /user -- Delete user
+
+
+//------RESTFUL CRUD---------
+//GET /favorites --Read a list of all favorites 
+router.get('/favorites',authLockedRoute, async (req,res) => {
+    try{
+      const user= await db.User.findById(res.locals.user._id)
+		  const favorites = await db.FavoriteMovie.find({})
+        res.json({result: favorites})
+    }catch(err){
+        console.log(err)
+    }
+})
 //GET /watchlist -- Read all movies that are in the wishList array
 router.get("/watchlist", authLockedRoute, async (req, res) => {
   try {
     const user = await db.User.findById(res.locals.user._id);
-    const watchList = user.favorites.map((watch) => watch._id)
+    const watchList = await db.WatchList.find({})
     res.json({ result: watchList });
   } catch (err) {
     console.log(err);
