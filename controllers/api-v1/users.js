@@ -31,6 +31,7 @@ router.post("/register", async (req, res) => {
     // create new user
     const newUser = new db.User({
       name: req.body.name,
+      userName: req.body.userName,
       email: req.body.email,
       password: hashedPassword,
     });
@@ -130,7 +131,16 @@ router.put("/user", authLockedRoute, async (req, res) => {
 });
 
 //DELETE /user -- Delete user
+router.delete("/user", authLockedRoute, async (req,res) => {
+  try{
+    const user= await db.User.findByIdAndDelete(res.locals.user._id)
+    res.json({message: 'user was deleted'})
+    console.log('it may deleted')
 
+  }catch(err){
+    console.log(err)
+  }
+})
 
 //------RESTFUL CRUD---------
 //GET /favorites --Read a list of all favorites 
