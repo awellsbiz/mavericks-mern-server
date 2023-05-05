@@ -1,27 +1,26 @@
 const mongoose = require('mongoose')
 
 const WatchListSchema = new mongoose.Schema({
-	tmdbId: {
+	id: {
 		type: String
 	},
 	title: {
 		type: String
 	},
-	poster: {
+	poster_path: {
 		type: String
 	},
 	rating: {
 		type: String
 	},
-	releaseDate: {
+	release_date: {
 		type: String
 	},
 	adult: {
 		type: Boolean
 	},
-	summary: {
+	overview: {
 		type: String
 	}
-
 })
 module.exports = mongoose.model('WatchList', WatchListSchema)
