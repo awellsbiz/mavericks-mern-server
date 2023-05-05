@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 
 const WatchListSchema = new mongoose.Schema({
+	tmdbId: {
+		type: String
+	},
 	title: {
 		type: String
 	},
