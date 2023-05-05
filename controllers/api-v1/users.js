@@ -147,8 +147,8 @@ router.delete("/user", authLockedRoute, async (req,res) => {
 router.get('/favorites',authLockedRoute, async (req,res) => {
     try{
       const user= await db.User.findById(res.locals.user._id)
-		  const favorites = await db.FavoriteMovie.find({})
-        res.json({result: favorites})
+      const movies = await db.FavoriteMovie.find({ _id: {$in: user.favorites }})
+        res.json({result: movies})
     }catch(err){
         console.log(err)
     }

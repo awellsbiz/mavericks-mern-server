@@ -1,25 +1,25 @@
 const mongoose = require('mongoose')
 
 const FavoriteMovieSchema = new mongoose.Schema({
-	tmdbId: {
+	id: {
 		type: String
 	},
 	title: {
 		type: String
 	},
-	poster: {
+	poster_path: {
 		type: String
 	},
 	rating: {
 		type: String
 	},
-	releaseDate: {
+	release_date: {
 		type: String
 	},
 	adult: {
 		type: Boolean
 	},
-	summary: {
+	overview: {
 		type: String
 	}
 
