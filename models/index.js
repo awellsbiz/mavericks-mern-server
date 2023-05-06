@@ -1,6 +1,5 @@
 // require mongoose package
 const mongoose = require("mongoose")
-const Comments = require("./Threads")
 require('dotenv').config()
 
 const dbName = 'mernAuth'
@@ -24,5 +23,6 @@ module.exports = {
 	User: require('./User'),
 	FavoriteMovie: require('./Favorites'),
 	WatchList: require('./WatchList'),
-	Threads: require('./Threads')
+	Threads: require('./Threads'),
+	Comments: require('./Comments')
 }
