@@ -70,7 +70,6 @@ router.post("/comments", async (req, res) => {
             userName: req.body.userName,
             commentBody: req.body.commentBody
         })
-        console.log(req.body)
         await db.Threads.findByIdAndUpdate(
             { _id: req.body.threadId },
             { $push: { comments: newComment } }
@@ -82,4 +81,19 @@ router.post("/comments", async (req, res) => {
     }
 })
 
+// DELETE a comment 
+router.delete("/comments/:id", async (req, res) => {
+    try {
+        const removeComment = await db.Comments.findByIdAndRemove({ _id: req.params.id })
+        await console.log(removeComment.threadId)
+        const findThread = await db.Threads.findByIdAndUpdate(
+            { _id: removeComment.threadId },
+            { $pull: { comments: removeComment._id } }
+        )
+        console.log(findThread)
+        res.json({ "msg": "Comment Deleted" })
+    } catch (error) {
+        console.log(error)
+    }
+})
 module.exports = router
