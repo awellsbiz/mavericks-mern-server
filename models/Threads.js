@@ -1,0 +1,25 @@
+const mongoose = require('mongoose')
+
+const ThreadSchema = new mongoose.Schema({
+    tmdbId: {
+        type: String
+    },
+    userId: {
+        type: String
+    },
+    userName: {
+        type: String
+    },
+    threadTitle: {
+        type: String
+    },
+    threadBody: {
+        type: String
+    },
+    comments: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }
+})
+
+module.exports = mongoose.model('Thread', ThreadSchema)

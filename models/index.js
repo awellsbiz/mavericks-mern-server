@@ -22,5 +22,7 @@ db.on('error', err => {
 module.exports = {
 	User: require('./User'),
 	FavoriteMovie: require('./Favorites'),
-	WatchList: require('./WatchList')
+	WatchList: require('./WatchList'),
+	Threads: require('./Threads'),
+	Comments: require('./Comments')
 }
