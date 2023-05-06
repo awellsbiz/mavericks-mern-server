@@ -6,6 +6,20 @@ const db = require('../../models')
 router.get("/movie/:id", async (req, res) => {
     try {
         const findThreads = await db.Threads.find({ tmdbId: req.params.id })
+        const comments = await db.Comments.find({ _id: { $in: findThreads.comments } })
+        // const findComments = findThreads.comments.find([])
+        // const allComments = findThreads.comments.map(comment => {
+        //     const findComment = db.Comments.findById({ _id: comment })
+        //     return (
+        //         {
+        //             id: comment.id,
+        //             threadId: comment.threadId,
+        //             userId: comment.userId,
+        //             userName: comment.userName,
+        //         }
+        //     )
+        // });
+        console.log(findThreads)
         res.json({ findThreads })
     } catch (error) {
         console.log(error)
@@ -61,6 +75,8 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+
+
 // POST a comment on a thread
 router.post("/comments", async (req, res) => {
     try {
@@ -85,12 +101,10 @@ router.post("/comments", async (req, res) => {
 router.delete("/comments/:id", async (req, res) => {
     try {
         const removeComment = await db.Comments.findByIdAndRemove({ _id: req.params.id })
-        await console.log(removeComment.threadId)
         const findThread = await db.Threads.findByIdAndUpdate(
             { _id: removeComment.threadId },
             { $pull: { comments: removeComment._id } }
         )
-        console.log(findThread)
         res.json({ "msg": "Comment Deleted" })
     } catch (error) {
         console.log(error)
