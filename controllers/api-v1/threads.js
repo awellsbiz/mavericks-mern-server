@@ -6,8 +6,7 @@ const db = require('../../models')
 router.get("/movie/:id", async (req, res) => {
     try {
         const findThreads = await db.Threads.find({ tmdbId: req.params.id })
-        const comments = await db.Comments.find({ _id: { $in: findThreads.comments } })
-        // const findComments = findThreads.comments.find([])
+        const findComments = await db.Comments.find({})
         // const allComments = findThreads.comments.map(comment => {
         //     const findComment = db.Comments.findById({ _id: comment })
         //     return (
@@ -19,8 +18,8 @@ router.get("/movie/:id", async (req, res) => {
         //         }
         //     )
         // });
-        console.log(findThreads)
-        res.json({ findThreads })
+        console.log(findComments)
+        res.json({ findThreads, findComments })
     } catch (error) {
         console.log(error)
     }
