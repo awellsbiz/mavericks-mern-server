@@ -27,6 +27,24 @@ router.post("/", async (req, res) => {
     }
 })
 
+router.put("/:id", async (req, res) => {
+    try {
+        const newThread = await db.Threads.findByIdAndUpdate(
+            { _id: req.params.id },
+            {
+                tmdbId: req.body.tmdbId,
+                userId: req.body.userId,
+                userName: req.body.userName,
+                threadTitle: req.body.threadTitle,
+                threadBody: req.body.threadBody,
+                comments: req.body.comments,
+            })
+        res.json({ "msg": "New thread created" })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 router.delete("/:id", async (req, res) => {
     try {
         const findThread = await db.Threads.findByIdAndRemove({
