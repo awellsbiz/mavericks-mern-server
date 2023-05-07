@@ -14,6 +14,9 @@ const UserSchema = new mongoose.Schema({
 	password: {
 		type: String
 	},
+	img: {
+		type: String
+	},
 	favorites: [
 		{
 			type: mongoose.Schema.Types.ObjectId,

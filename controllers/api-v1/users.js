@@ -106,7 +106,7 @@ router.get("/auth-locked", authLockedRoute, (req, res) => {
 });
 
 //PUT /user-- edit user
-router.put("/user", authLockedRoute, async (req, res) => {
+router.put("/", authLockedRoute, async (req, res) => {
   try {
     const userId = res.locals.user._id;
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -119,6 +119,7 @@ router.put("/user", authLockedRoute, async (req, res) => {
           email: req.body.email,
           userName: req.body.userName,
           password: hashedPassword,
+          img: req.body.img,
         }
       },
       { new: true }
