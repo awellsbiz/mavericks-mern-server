@@ -190,17 +190,22 @@ router.post("/watchlist", authLockedRoute, async (req, res) => {
   }
 });
 
-// DELETE /favorites/:id -- delete a movie from the favorites array
+// // DELETE /favorites/:id -- delete a movie from the favorites array
 router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
   try {
-    const user = await db.User.findById(res.locals.user._id);
-    user.favorites.remove(req.params.id)
-    user.save()
-    res.json({ result: "Favorite Removed" });
+    console.log(res.locals.user._id)
+    console.log(req.params.id)
+    const removeFavorite = await db.FavoriteMovie.findByIdAndRemove(({_id: req.params.id}))
+    const findUser = await db.User.findByIdAndUpdate(
+      {_id: res.locals.user._id},
+      {$pull: { favorites: removeFavorite._id}}
+    )
+    res.json({result: "You are the best and solved Player One's last mission"})
   } catch (error) {
-    console.log(error);
+    
   }
-});
+})
+
 
 
 //DELETE /watchlist/:id --delete a specific movie from the array
