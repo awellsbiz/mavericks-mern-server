@@ -106,7 +106,7 @@ router.get("/auth-locked", authLockedRoute, (req, res) => {
 });
 
 //PUT /user-- edit user
-router.put("/user", authLockedRoute, async (req, res) => {
+router.put("/", authLockedRoute, async (req, res) => {
   try {
     const userId = res.locals.user._id;
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -131,7 +131,7 @@ router.put("/user", authLockedRoute, async (req, res) => {
 });
 
 //DELETE /user -- Delete user
-router.delete("/user", authLockedRoute, async (req,res) => {
+router.delete("/", authLockedRoute, async (req,res) => {
   try{
     const user= await db.User.findByIdAndDelete(res.locals.user._id)
     res.json({message: 'user was deleted'})
