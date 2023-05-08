@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
             threadBody: req.body.threadBody,
             comments: req.body.comments,
         })
-        res.json({ "msg": "New thread created" })
+        res.json({ newThread })
     } catch (error) {
         console.log(error)
     }
