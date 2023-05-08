@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
             threadBody: req.body.threadBody,
             comments: req.body.comments,
         })
-        res.json({ "msg": "New thread created" })
+        res.json({ newThread })
     } catch (error) {
         console.log(error)
     }
@@ -89,7 +89,7 @@ router.post("/comments", async (req, res) => {
             { _id: req.body.threadId },
             { $push: { comments: newComment } }
         )
-        res.json({ "msg": "Comment Posted" })
+        res.json({ newComment })
 
     } catch (error) {
         console.log(error)
