@@ -106,7 +106,7 @@ router.get("/auth-locked", authLockedRoute, (req, res) => {
 });
 
 //PUT /user-- edit user
-router.put("/user", authLockedRoute, async (req, res) => {
+router.put("/", authLockedRoute, async (req, res) => {
   try {
     const userId = res.locals.user._id;
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -131,7 +131,7 @@ router.put("/user", authLockedRoute, async (req, res) => {
 });
 
 //DELETE /user -- Delete user
-router.delete("/user", authLockedRoute, async (req,res) => {
+router.delete("/", authLockedRoute, async (req,res) => {
   try{
     const user= await db.User.findByIdAndDelete(res.locals.user._id)
     res.json({message: 'user was deleted'})
@@ -193,6 +193,8 @@ router.post("/watchlist", authLockedRoute, async (req, res) => {
 // // DELETE /favorites/:id -- delete a movie from the favorites array
 router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
   try {
+    console.log(res.locals.user._id)
+    console.log(req.params.id)
     const removeFavorite = await db.FavoriteMovie.findByIdAndRemove(({_id: req.params.id}))
     const findUser = await db.User.findByIdAndUpdate(
       {_id: res.locals.user._id},
@@ -204,18 +206,17 @@ router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
   }
 })
 
+
+
 //DELETE /watchlist/:id --delete a specific movie from the array
 router.delete("/watchlist/:id", authLockedRoute, async (req, res) => {
   try {
-    const removeWatch = await db.WatchList.findByIdAndRemove (({_id: req.params.id}))
-    const findUser = await db.User.findByIdAndUpdate(
-      {_id: res.locals.user._id},
-      {$pull:{ watchList: removeWatch._id}}
-    )
+    const user = await db.User.findById(res.locals.user._id);
+    user.watchList.remove(req.params.id)
+    user.save()
     res.json({ result: "Watch List Removed"});
   } catch (err) {
     console.log(err);
   }
 });
-
 module.exports = router;
