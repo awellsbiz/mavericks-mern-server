@@ -120,6 +120,7 @@ router.put("/", authLockedRoute, async (req, res) => {
           email: req.body.email,
           userName: req.body.userName,
           password: hashedPassword,
+          img: req.body.img,
         }
       },
       { new: true }
@@ -132,27 +133,27 @@ router.put("/", authLockedRoute, async (req, res) => {
 });
 
 //DELETE /user -- Delete user
-router.delete("/", authLockedRoute, async (req,res) => {
-  try{
-    const user= await db.User.findByIdAndDelete(res.locals.user._id)
-    res.json({message: 'user was deleted'})
+router.delete("/", authLockedRoute, async (req, res) => {
+  try {
+    const user = await db.User.findByIdAndDelete(res.locals.user._id)
+    res.json({ message: 'user was deleted' })
     console.log('it may deleted')
 
-  }catch(err){
+  } catch (err) {
     console.log(err)
   }
 })
 
 //------RESTFUL CRUD---------
 //GET /favorites --Read a list of all favorites 
-router.get('/favorites',authLockedRoute, async (req,res) => {
-    try{
-      const user= await db.User.findById(res.locals.user._id)
-      const movies = await db.FavoriteMovie.find({ _id: {$in: user.favorites }})
-        res.json({result: movies})
-    }catch(err){
-        console.log(err)
-    }
+router.get('/favorites', authLockedRoute, async (req, res) => {
+  try {
+    const user = await db.User.findById(res.locals.user._id)
+    const movies = await db.FavoriteMovie.find({ _id: { $in: user.favorites } })
+    res.json({ result: movies })
+  } catch (err) {
+    console.log(err)
+  }
 })
 //GET /watchlist -- Read all movies that are in the wishList array
 router.get("/watchlist", authLockedRoute, async (req, res) => {
@@ -196,14 +197,14 @@ router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
   try {
     console.log(res.locals.user._id)
     console.log(req.params.id)
-    const removeFavorite = await db.FavoriteMovie.findByIdAndRemove(({_id: req.params.id}))
+    const removeFavorite = await db.FavoriteMovie.findByIdAndRemove(({ _id: req.params.id }))
     const findUser = await db.User.findByIdAndUpdate(
-      {_id: res.locals.user._id},
-      {$pull: { favorites: removeFavorite._id}}
+      { _id: res.locals.user._id },
+      { $pull: { favorites: removeFavorite._id } }
     )
-    res.json({result: "You are the best and solved Player One's last mission"})
+    res.json({ result: "You are the best and solved Player One's last mission" })
   } catch (error) {
-    
+
   }
 })
 
@@ -215,7 +216,7 @@ router.delete("/watchlist/:id", authLockedRoute, async (req, res) => {
     const user = await db.User.findById(res.locals.user._id);
     user.watchList.remove(req.params.id)
     user.save()
-    res.json({ result: "Watch List Removed"});
+    res.json({ result: "Watch List Removed" });
   } catch (err) {
     console.log(err);
   }
