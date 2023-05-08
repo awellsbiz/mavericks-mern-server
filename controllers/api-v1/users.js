@@ -105,6 +105,7 @@ router.get("/auth-locked", authLockedRoute, (req, res) => {
   res.json({ msg: "welcome to the private route!" });
 });
 
+
 //PUT /user-- edit user
 router.put("/", authLockedRoute, async (req, res) => {
   try {
