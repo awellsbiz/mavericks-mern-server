@@ -7,18 +7,6 @@ router.get("/movie/:id", async (req, res) => {
     try {
         const findThreads = await db.Threads.find({ tmdbId: req.params.id })
         const findComments = await db.Comments.find({})
-        // const allComments = findThreads.comments.map(comment => {
-        //     const findComment = db.Comments.findById({ _id: comment })
-        //     return (
-        //         {
-        //             id: comment.id,
-        //             threadId: comment.threadId,
-        //             userId: comment.userId,
-        //             userName: comment.userName,
-        //         }
-        //     )
-        // });
-        console.log(findComments)
         res.json({ findThreads, findComments })
     } catch (error) {
         console.log(error)
