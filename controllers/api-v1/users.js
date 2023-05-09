@@ -86,6 +86,8 @@ router.post("/login", async (req, res) => {
       name: foundUser.name,
       email: foundUser.email,
       _id: foundUser.id,
+      img: foundUser.img,
+      userName:foundUser.userName,
     };
 
     // sign jwt and send back
@@ -192,8 +194,6 @@ router.post("/watchlist", authLockedRoute, async (req, res) => {
 // // DELETE /favorites/:id -- delete a movie from the favorites array
 router.delete("/favorites/:id", authLockedRoute, async (req, res) => {
   try {
-    console.log(res.locals.user._id)
-    console.log(req.params.id)
     const removeFavorite = await db.FavoriteMovie.findByIdAndRemove(({ _id: req.params.id }))
     const findUser = await db.User.findByIdAndUpdate(
       { _id: res.locals.user._id },

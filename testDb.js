@@ -8,11 +8,9 @@ const referenceCrud = async ()=> {
 
         //have an instance of a user and an instance of a post(through creation or finding)
         const newFavoriteMovie = await db.FavoriteMovie.findById('64535e757bf12c96fbbf3701')
-        console.log("fave movie::::", newFavoriteMovie.title)
-        
+
         const foundUser = await db.User.findOne({name : 'test 11'})
-        console.log('found User', foundUser.favorites)
-        
+
         // const newFave = {
         //     title: 'LOTR',
         //     poster: 'www.x.com',
@@ -20,7 +18,6 @@ const referenceCrud = async ()=> {
         // }
 
        const push = foundUser.favorites.push(newFavoriteMovie.id)
-        console.log("this is pushed:::::", push)
         await foundUser.save()
         
 
