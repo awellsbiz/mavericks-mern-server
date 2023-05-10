@@ -12,6 +12,9 @@ const CommentSchema = new mongoose.Schema({
     },
     commentBody: {
         type: String
+    },
+    img: {
+        type: String
     }
 })
 

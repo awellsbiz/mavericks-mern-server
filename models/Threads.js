@@ -19,6 +19,9 @@ const ThreadSchema = new mongoose.Schema({
     comments: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
+    },
+    img: {
+        type: String
     }
 })
 
