@@ -20,6 +20,7 @@ router.post("/", async (req, res) => {
             tmdbId: req.body.tmdbId,
             userId: req.body.userId,
             userName: req.body.userName,
+            img: req.body.img,
             threadTitle: req.body.threadTitle,
             threadBody: req.body.threadBody,
             comments: req.body.comments,
@@ -71,7 +72,8 @@ router.post("/comments", async (req, res) => {
             threadId: req.body.threadId,
             userId: req.body.userId,
             userName: req.body.userName,
-            commentBody: req.body.commentBody
+            commentBody: req.body.commentBody,
+            img: req.body.img,
         })
         await db.Threads.findByIdAndUpdate(
             { _id: req.body.threadId },
