@@ -46,6 +46,15 @@ Open the app in your browser:
 - As a user, I want to have imagery attached to the movies I am watching
 - As a user, I want to have all relevant information that includes release date, rating, genre, synopsis
 
+## Approach
+- split up the team into two parts front end and backend
+- used trello boards and miro for collaboration
+- daily stand ups to discuss any radblocks and current state
+
+## CineSearch
+
+![CRUD for the CineSearch](assets/cinesearch.png)
+
 ## CRUD
 
 ![CRUD for the CineSearch](assets/crud.png)
